@@ -1,4 +1,4 @@
-(defproject graphql-schema "0.1.0-SNAPSHOT"
+(defproject json-to-graphql "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
