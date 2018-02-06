@@ -1,6 +1,6 @@
 # json-to-graphql
 
-A Clojure library designed to ... well, that part is up to you.
+Generates GraphQL schema based on JSON data.
 
 ## Usage
 
