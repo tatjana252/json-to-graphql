@@ -21,8 +21,8 @@
          (str "input " (name n))))
 
 (defn make-type [type-fn [k v]]
-    (->> v
-         (r/map #(field %1 %2))
+    (->>  v
+         (reduce-kv #(str %1 (field %2 %3)) "")
          (r/fold str)
          (type-fn k)))
 
@@ -33,10 +33,11 @@
     [schema type-fn]
     (->> schema
          (r/map #(type-fn (MapEntry. %1 %2)))
-         (r/fold str)))
+         (r/fold clojure.core/str)))
 
 (defn objects-schema
     [objects]
+    (clojure.pprint/pprint objects)
     (make-schema objects object-type))
 
 (defn input-objects-schema
