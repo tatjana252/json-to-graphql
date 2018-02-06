@@ -34,4 +34,15 @@
          (p/objects-schema (:objects schema))
          (p/input-objects-schema (:input-objects schema))))
 
+(def jsonA "{\"a\":[\"a\"],\"b\":{\"b1\":\"String\"}}")
+(def j (parse-string jsonA true))
+(def jsonB "{\"c\":true, \"d\":[1, 2, 3]}")
+
+(printf
+    (->
+       (object-from-json jsonA "A" {:non-null {:a [:non-null :list :non-null]}})
+       (object-from-json jsonB "D" nil)
+        schema))
+
+
 (shutdown-agents)
