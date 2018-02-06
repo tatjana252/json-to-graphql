@@ -22,7 +22,3 @@
     (alter-modifiers [:non-null :list :non-null]  [(symbol "String")]) => '([(String)])
     (alter-modifiers [:list  :non-null :list] [[(symbol "String")]]) => ['([String])])
 
-(fact
-    (parse-field (MapEntry. :a 1) o/object-name) => {:a 'Int}
-    (parse-field (MapEntry. :a {:b "String"}) o/object-name) => {:a 'A})
-
