@@ -17,7 +17,7 @@
 (defn non-null [str]
     (with-meta (list str) {:non-null true}))
 
-(defn clean [object]
+(defn remove-modifiers [object]
     (loop [result object]
         (if (or (list? result) (vector? result))
             (recur (first result))
@@ -27,7 +27,7 @@
     (reduce #(case %2
                  :list [%1]
                  :non-null (non-null %1)
-                 nil %1) (clean value) modifiers))
+                 nil %1) (remove-modifiers value) (reverse modifiers)))
 
 (defn parse-field [field name-fn]
     (let [k (key field)]
@@ -39,7 +39,7 @@
 (defn parse-type
     [name-fn object]
     (->> (val object)
-         clean
+         remove-modifiers
          (r/map #(parse-field (MapEntry. %1 %2) name-fn))
          (r/fold m/cat-map)
          (MapEntry. (name-fn (key object)))))

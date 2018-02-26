@@ -18,5 +18,27 @@
         (r/map #(i/parse-input-object {%1 %2}))
         (r/fold m/cat-map)))
 
-(defn non-null [str]
-        (vary-meta (list str) assoc :non-null true))
+(defn query-name [nm args]
+    (reduce #(str %1 "_" (name %2)) (str nm "_by") (keys args)))
+
+(defn query [name fields objects ]
+    (if fields
+        (let [args (m/select-keys* objects fields)]
+            {name {:name (query-name name args)
+                   :args (into {} args)}})
+        {}))
+
+(defn mutation [nm]
+    {nm {:name (str "add_" nm)
+         :args (symbol (name (i/input-object-name nm)))}})
+
+(defn schema-map [json-map ops name]
+    (let [objects (future (objects json-map))
+          input-objects (future (input-objects json-map))
+          query (future (query name (:query ops) @objects))
+          mutations (future (mutation name))]
+        {:objects @objects
+         :input-objects @input-objects
+         :queries @query
+         :mutations @mutations}) )
+

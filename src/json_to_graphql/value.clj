@@ -15,9 +15,6 @@
                          :non-null (str %1 "!")
                          nil %1) (name type) modifiers)))
 
-(defn remove-value-modifiers [type]
-    (apply str (remove (set "[]! ") type)))
-
 (defn null-modifiers [value]
     (if (:non-null (meta value))
         {:value (first value) :non-null :non-null}
@@ -32,7 +29,7 @@
 (defn field-value [[key value] fn-name]
     (loop [key key value value modifiers '()]
         (let [{non-null :non-null value :value} (null-modifiers value)
-              modifiers (cons  non-null modifiers)]
+              modifiers (cons non-null modifiers)]
             (condp #(%1 %2) value
                 scalar-type :>> (partial add-value-modifiers modifiers)
                 map? (object-field modifiers key fn-name)

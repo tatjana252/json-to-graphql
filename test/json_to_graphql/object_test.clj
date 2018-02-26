@@ -15,7 +15,7 @@
     (parse-field (MapEntry. :a (non-null [(non-null "String")])) o/object-name) => {:a (symbol "[String!]!")})
 
 (fact
-    (clean [[['("String")]]]) => "String")
+    (remove-modifiers [[['("String")]]]) => "String")
 
 (fact
     (alter-modifiers [:list :list :non-null] [[(symbol "String")]]) => [['(String)]]

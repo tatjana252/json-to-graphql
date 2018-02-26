@@ -8,14 +8,12 @@
                           :else y))
                 a b))
 
-(defn
-    return-map [arg]
+(defn return-map [arg]
     (if (vector? arg)
         (first arg)
         arg))
 
-(defn
-    get-nested-object
+(defn get-nested-object
     [m k]
     (->> (tree-seq map? vals m)
          (filter map?)
@@ -23,5 +21,11 @@
          return-map
          (MapEntry. k)))
 
-
 (defn cat-map ([xs x] (into xs x)) ([] {}))
+
+(defn select-keys* [m paths]
+    (loop [[f & rest] m
+           result {}]
+        (if f
+            (recur rest (into result (select-keys (val f) paths)))
+            result)))

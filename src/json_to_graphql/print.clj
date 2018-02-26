@@ -37,10 +37,51 @@
 
 (defn objects-schema
     [objects]
-    (clojure.pprint/pprint objects)
     (make-schema objects object-type))
 
 (defn input-objects-schema
     [input-objects]
     (when-not (empty? input-objects)
         (make-schema input-objects input-object-type)))
+
+(defn mutation-args [k v]
+    (str (:name v)
+         "("
+         (clojure.string/lower-case (:args v))
+         ": "
+         (:args v)
+         "): "
+         k
+         "\n"))
+
+(defn args [args]
+    (->> args
+         (reduce-kv #(str %1 (name %2) ":" %3 ",") "" )
+         drop-last
+         (clojure.string/join "")))
+
+(defn query [k v]
+    (str (clojure.string/lower-case (:name v))
+         "("
+         (args (:args v))
+         "): "
+         k "\n" ))
+
+(defn make-queries
+    [queries]
+    (when queries
+        (->> queries
+             (r/map #(query %1 %2))
+             (r/fold str)
+             put-in-brackets
+             (str "type Query"))))
+
+(defn make-mutations
+    [mutations]
+    (when mutations
+        (->> mutations
+             (r/map mutation-args)
+             (r/fold str)
+             put-in-brackets
+             (str "type Mutation"))))
+

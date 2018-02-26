@@ -6,44 +6,33 @@
               [map-util.map-util :as m])
     (:import (clojure.lang MapEntry)))
 
-(defn apply-non-null [obj name nn-map]
+(defn apply-non-null [nn-map obj ]
     (if nn-map
         (reduce-kv
-            #(update-in %1 [(keyword name) %2]
+            #(update-in %1 %2
                         (partial o/alter-modifiers %3)) obj nn-map)
         obj))
 
 (defn json-map
-    [name obj ops]
-    (let [object (assoc {} (keyword name) obj)]
-        (-> object
-            (apply-non-null name (:non-null ops)))))
+    [obj ops name]
+    (->> obj
+         (apply-non-null (:non-null ops))
+         (assoc {} (keyword name))))
 
 (defn object-from-json
     ([json name ops]
         (object-from-json {} json name ops))
     ([schema json name ops]
-     (let [json-map (json-map name (parse-string json true) ops)
-           objects (sm/objects json-map)
-           input-objects (if (:input-object ops) (sm/input-objects json-map) {})]
-         (m/deep-merge schema {:objects objects :input-objects input-objects}))))
+      (-> json
+          (parse-string true)
+          (json-map ops name)
+          (sm/schema-map ops name)
+          (m/deep-merge schema))))
 
 (defn schema
     [schema]
     (str
          (p/objects-schema (:objects schema))
-         (p/input-objects-schema (:input-objects schema))))
-
-(def jsonA "{\"a\":[\"a\"],\"b\":{\"b1\":\"String\"}}")
-(def j (parse-string jsonA true))
-(def jsonB "{\"c\":true, \"d\":[1, 2, 3]}")
-
-(printf
-    (->
-       (object-from-json jsonA "A" {:non-null {:a [:non-null :list :non-null]}
-                                    :input-object true})
-       (object-from-json jsonB "D" nil)
-        schema))
-
-
-(shutdown-agents)
+         (p/input-objects-schema (:input-objects schema))
+         (p/make-queries (:queries schema))
+         (p/make-mutations (:mutations schema))))
