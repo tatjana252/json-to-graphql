@@ -10,7 +10,23 @@ including custom types, lists and deeply nested children.
 Generated GraphQL schema contains all types, input types for all types and mutations, 
 optionally it can generate queries.
 
-[Docs](https://www.google.com)
+[Docs](https://tatjana252.github.io/json-to-graphql/)
+
+### Requirements
+
+Clojure 1.9.0
+
+## Instalation
+
+To include library add the following to your `dependencies`
+`[json-to-graphql "0.1.0-SNAPSHOT"]`
+
+
+In your ns statement:
+```clojure
+(ns my.ns
+  (:require [json-to-graphql.core :refer :all]))
+```
 
 
 ## Usage
@@ -25,21 +41,7 @@ This function can be chained. </br>
 When all objects are added, using `schema` function string GraphQL schema is created, 
 which can be saved to textual file.
 
-###Requirements
-
-Clojure 1.9.0
-
-##Instalation
-
-To include library add the following to your :dependencies:
-[json-to-graphql "0.1.0-SNAPSHOT"]
-
-
-In your ns statement:
-(ns my.ns
-  (:require [json-to-graphql.core :refer :all]))
-
-##Example
+## Example
 ```clojure
 (require '[json-to-graphql :refer [json->graphql graphql-schema]])
 
