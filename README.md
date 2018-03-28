@@ -90,7 +90,7 @@ Resulting schema:
     }
 }
 ```
-Same schema will be generated for JSON below, if no name is provided.
+Same schema will be generated for JSON below, if name isn't provided.
 
 
 ```clojure
