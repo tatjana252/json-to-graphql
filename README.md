@@ -11,13 +11,13 @@ optionally it can generate queries.
 
 ## Usage
 
-JSON must have top level object that can contain one or more objects.
+JSON must have top level object that can contain one or more objects.</br>
 If JSON respresents one object then its name **must** be supplied.
 Supplied name will be name of GraphQL type.
 
 
 Function `json->object` will generate Clojure map that corresponds to GraphQL schema.
-This function can be chained. 
+This function can be chained. </br>
 When all objects are added, using `schema` function string GraphQL schema is created, 
 which can be saved to textual file.
 
@@ -116,7 +116,7 @@ If name is supplied, new root type will be generated.
 (def schema (-> (json->graphql employee-and-company "EmployeeandCompany"  nil)
                          graphql-schema))
 ```
-Mutation are generated for root types only.
+Mutations are generated for root types only.
 
 ```
    type EmployeeandCompany {
