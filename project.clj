@@ -1,4 +1,4 @@
-(defproject json-to-graphql "0.1.0-SNAPSHOT"
+(defproject json-to-graphql "0.1.0"
   :description "Clojure library for generating GraphQL schema from JSON."
   :url "https://github.com/tatjana252/json-to-graphql"
   :license {:name "Eclipse Public License"
