@@ -19,7 +19,7 @@ Clojure 1.9.0
 ## Instalation
 
 To include library add the following to your `dependencies`
-`[json-to-graphql "0.1.0-SNAPSHOT"]`
+`[json-to-graphql "0.1.0"]`
 
 
 In your ns statement:
